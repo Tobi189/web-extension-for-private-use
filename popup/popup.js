@@ -36,20 +36,42 @@ async function downloadPart(chapters, startIdx, endIdxExclusive) {
 
 function render(chapters) {
   listEl.innerHTML = "";
-  const groupSize = getGroupSize();
 
-  for (let i = 0; i < chapters.length; i++) {
-    // Part header + divider at boundaries
-    if (i % groupSize === 0) {
+  const groupSize = getGroupSize();
+  const N = chapters.length;
+
+  // Move the "remainder" group to the TOP so the bottom-most part is full-sized
+  const rem = N % groupSize;
+  const startOffset = rem === 0 ? 0 : rem;
+
+  // Total number of parts
+  const totalParts = rem === 0 ? N / groupSize : 1 + (N - startOffset) / groupSize;
+
+  for (let i = 0; i < N; i++) {
+    // Part boundaries:
+    // - always at i=0 (top group, possibly remainder)
+    // - then every groupSize after startOffset
+    const isBoundary = i === 0 || (i >= startOffset && (i - startOffset) % groupSize === 0);
+
+    if (isBoundary) {
       if (i !== 0) {
         const divider = document.createElement("div");
         divider.className = "partDivider";
         listEl.appendChild(divider);
       }
 
-      const partIndex = Math.floor(i / groupSize) + 1;
-      const start = i + 1;
-      const end = Math.min(i + groupSize, chapters.length);
+      // End index (exclusive) of this group
+      const j = i < startOffset ? startOffset : Math.min(i + groupSize, N);
+
+      // Range counted from the bottom (oldest = 1)
+      // Group covers [i .. j-1]
+      const start = N - (j - 1); // N - j + 1
+      const end = N - i;
+
+      // Part numbering counted from the bottom (bottom-most group = Part 1)
+      // Compute which group this is from the top, then invert
+      const groupIdxFromTop = i < startOffset ? 0 : 1 + Math.floor((i - startOffset) / groupSize);
+      const partIndex = totalParts - groupIdxFromTop;
 
       const header = document.createElement("div");
       header.className = "partHeader";
@@ -71,7 +93,7 @@ function render(chapters) {
       partDownloadBtn.className = "btn btnPrimary";
       partDownloadBtn.textContent = `Download ${start}–${end}`;
       partDownloadBtn.addEventListener("click", () => {
-        downloadPart(chapters, i, Math.min(i + groupSize, chapters.length));
+        downloadPart(chapters, i, j);
       });
 
       header.appendChild(left);
