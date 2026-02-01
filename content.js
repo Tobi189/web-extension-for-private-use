@@ -16,19 +16,25 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   for (const row of rows) {
     const links = [...row.querySelectorAll("a[href]")];
 
-    // Chapter page link (the one with visible text)
+    // Title link: visible text
     const titleLink = links.find(a => (a.textContent || "").trim().length > 0);
     const name = (titleLink?.textContent || "").trim();
     const url = titleLink?.href || "";
 
-    // Download link (icon-only; usually Google Drive "uc?...export=download")
+    // Download link: icon-only Google Drive / download-like URL
     const downloadLink = links.find(a => {
       const href = a.href || "";
-      return (
-        href.includes("drive.google.com/uc") ||
-        href.includes("export=download") ||
-        href.includes("drive.google.com")
-      );
+      if (!href) return false;
+
+      if (href.includes("export=download")) return true;
+      if (href.includes("drive.google.com/uc")) return true;
+      if (href.includes("drive.google.com")) return true;
+
+      const svg = a.querySelector("svg");
+      const svgClass = svg?.getAttribute("class") || "";
+      if (svgClass.includes("lucide-cloud-download") || svgClass.includes("cloud-download")) return true;
+
+      return false;
     });
 
     const downloadUrl = downloadLink?.href || "";

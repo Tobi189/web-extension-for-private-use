@@ -1,126 +1,147 @@
-:root{
-  --w: 22rem;              /* popup width */
-  --h: 32rem;              /* popup height */
-  --pad: 0.75rem;
-  --gap: 0.6rem;
-
-  --border: 1px solid #e6e6e6;
-  --radius: 0.85rem;
-
-  --bg: #ffffff;
-  --card: #fafafa;
-  --text: #111;
-  --muted: #666;
-}
-
-* { box-sizing: border-box; }
-
-html, body {
-  width: var(--w);
-  height: var(--h);
+/* --- Clean UI --- */
+body {
   margin: 0;
-  padding: 0;
-  background: var(--bg);
-  color: var(--text);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* Main layout */
 .app {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: var(--pad);
-  gap: var(--gap);
+  width: 320px;
+  padding: 12px;
 }
 
-/* Header row */
 .top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--gap);
-  padding: 0.25rem 0;
+  gap: 10px;
+  margin-bottom: 8px;
 }
 
 .title {
-  font-weight: 700;
-  font-size: 1rem;
-  line-height: 1.2;
+  font-size: 14px;
+  font-weight: 800;
 }
 
-/* Status line */
 .status {
-  font-size: 0.85rem;
-  color: var(--muted);
-  padding: 0.25rem 0;
+  margin: 8px 0 10px 0;
+  font-size: 12px;
+  opacity: 0.85;
 }
 
-/* Scrollable list area */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.controlLabel {
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+#groupSize {
+  width: 64px;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 12px;
+  outline: none;
+}
+
+.controlHint {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
 .list {
-  flex: 1;                 /* take remaining height */
-  overflow: auto;
-  border: var(--border);
-  border-radius: var(--radius);
-  background: var(--card);
-  padding: 0.5rem;
-}
-
-/* Each chapter card */
-.item {
-  background: #fff;
-  border: var(--border);
-  border-radius: 0.75rem;
-  padding: 0.6rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.item:last-child { margin-bottom: 0; }
-
-/* Chapter title line */
-.itemTitle {
-  font-size: 0.95rem;
-  font-weight: 600;
-  line-height: 1.25;
-  /* allow 2 lines then ellipsis */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  gap: 8px;
 }
 
-/* Buttons row */
-.itemActions {
+/* Part header */
+.partHeader {
   display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  background: #f6f6f7;
+  border: 1px solid #e6e6ea;
+  border-radius: 14px;
+}
+
+.partTitle {
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.partMeta {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-top: 2px;
+}
+
+/* Chapter rows */
+.chapterRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.chapterTitle {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Buttons */
-button {
-  border: var(--border);
-  background: #f6f6f6;
-  color: var(--text);
-  border-radius: 0.7rem;
-  padding: 0.55rem 0.8rem;
-  font-size: 0.9rem;
+.btn {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
   cursor: pointer;
-  line-height: 1;
 }
 
-button:hover { background: #ededed; }
-button:active { transform: translateY(1px); }
-
-.smallBtn {
-  padding: 0.45rem 0.7rem;
-  font-size: 0.85rem;
-  border-radius: 0.65rem;
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
-/* Make the Load button look nicer */
-#load {
-  padding: 0.5rem 0.8rem;
-  font-weight: 600;
+.btnPrimary {
+  background: #111;
+  color: #fff;
+}
+
+.btnGhost {
+  background: #fff;
+  border-color: #e6e6ea;
+}
+
+.btnGhost:hover:not(:disabled) {
+  background: #f6f6f7;
+}
+
+/* Red divider */
+.partDivider {
+  height: 2px;
+  background: #d33;
+  border-radius: 999px;
+  margin: 2px 0;
+  opacity: 0.9;
 }
