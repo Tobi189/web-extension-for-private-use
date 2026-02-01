@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Chapter Lister",
+  "name": "Rawkuma Chapter Downloader",
   "version": "1.0.0",
   "permissions": ["activeTab", "tabs","downloads"],
   "host_permissions": ["<all_urls>"],
